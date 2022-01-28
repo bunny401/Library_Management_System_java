@@ -1,0 +1,133 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class UserPanel extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static void user_menu(String UID) {
+	    
+	    
+		
+		JFrame frame = new JFrame("Flow Layout");
+        JButton btnViewBooks,button1, button2, button3,button4;
+        btnViewBooks = new JButton("button 1");
+      
+	    btnViewBooks.setBackground(Color.gray);
+	    btnViewBooks.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	             
+	           ViewBooks.ViewBook();            
+	    }
+	    }
+	    );
+	    
+        button1 = new JButton("button 2");
+        button2 = new JButton("button 3");
+        button3 = new JButton("button 4");
+        button4 = new JButton("button 5");
+        
+        
+        frame.add(btnViewBooks);
+       
+	    
+        frame.add(button1);
+        frame.add(button2);
+        frame.add(button3);
+        frame.add(button4);
+        frame.setLayout(new GridLayout(2,3));
+        frame.setSize(300,300);  
+        frame.setVisible(true);
+        
+	   /* JFrame f=new JFrame("User Functions"); 
+	    	    
+	    JButton btnViewBooks=new JButton("View all Books");
+	    btnViewBooks.setBounds(20,20,160,75);
+	    btnViewBooks.setBackground(Color.WHITE);
+	    btnViewBooks.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	             
+	           ViewBooks.ViewBook();            
+	    }
+	    }
+	    );
+	     
+	    JButton btnMyBooks=new JButton("Borrow Books");
+	    btnMyBooks.setBounds(230,20,160,75);
+	    btnMyBooks.setBackground(Color.WHITE);
+	    //btnMyBooks.setForeground(Color.);
+	    btnMyBooks.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	        	
+	        	MyBooks.myBooks(UID);
+	                 
+	    }
+	    }
+	    );
+	    
+	    JButton btnborrow=new JButton("My Book");
+	    btnborrow.setBounds(130,20,120,75);
+	    btnborrow.setBackground(Color.WHITE);
+	    //btnMyBooks.setForeground(Color.);
+	    btnborrow.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	        	
+	        	Borrowbook.borrowbook();
+	                 
+	    }
+	    }
+	    );
+	    
+	    JButton btnReturnBooks=new JButton("Return Book");
+	    btnReturnBooks.setBounds(20,120,160,75);
+	    btnReturnBooks.setBackground(Color.WHITE);
+	    //btnMyBooks.setForeground(Color.);	
+	    btnReturnBooks.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	        	
+	        	//MyBooks.myBooks(UID);
+	                 
+	    }
+	    }
+	    );
+	    
+	    JButton btnLogout=new JButton("Logout");
+	    btnLogout.setBounds(20,120,160,75);
+	    btnLogout.setBackground(Color.WHITE);
+	    btnLogout.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){
+	        	f.dispose();
+	        	Login.login();
+	                 
+	    }
+	    }
+	    );
+	     
+	     
+	     
+	    f.add(btnMyBooks); 
+	    f.add(btnViewBooks); 
+	   // f.getContentPane().add(btnborrowBooks); 
+	    f.add(btnborrow); 
+	    f.add(btnLogout);
+	    f.getContentPane().setBackground( Color.decode("#3B5998") );
+	    f.setSize(700,300);
+	    f.setLayout(null);
+	    f.setVisible(true);
+	    f.revalidate();
+	    f.setLocationRelativeTo(null);
+	    f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    f.setResizable(false); 
+	    }*/
+}
+}

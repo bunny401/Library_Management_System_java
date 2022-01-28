@@ -1,0 +1,137 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import libraryProject.BaseClass.ex;
+
+public class ReturnBook {
+public static void returnBook() {
+	JFrame g = new JFrame("Enter Details");
+    
+    
+    JLabel issueIdLabel,returnDateLabel;  
+    issueIdLabel=new JLabel("Issue ID(IID)");  
+    issueIdLabel.setBounds(30,15, 100,30); 
+    
+     
+    returnDateLabel=new JLabel("Return Date(DD-MM-YYYY)");  
+    returnDateLabel.setBounds(30,70, 150,30); 
+     
+    JTextField iidTextField  = new JTextField();
+    iidTextField .setBounds(110, 15, 200, 30);
+     
+     
+    JTextField returnTextField=new JTextField();
+    returnTextField.setBounds(180, 70, 130, 30);
+   
+
+    JButton btnReturn =new JButton("Return");
+    btnReturn.setBounds(130,140,130,25);
+    btnReturn.setBackground(Color.decode("#D4AC0D"));
+    btnReturn.setForeground(Color.WHITE);
+    btnReturn.addActionListener(new ActionListener() {
+         
+        public void actionPerformed(ActionEvent e){                 
+         
+        String iid = iidTextField .getText();
+        String return_date = returnTextField.getText();
+         
+        Connection connection = DbConnection.connect();
+         
+        try {
+        Statement stmt = connection.createStatement();
+         stmt.executeUpdate("USE Library");
+         
+         String date1=null;
+         String date2=return_date; 
+         
+         
+         ResultSet rs = stmt.executeQuery("SELECT issued_date FROM issued_books WHERE iid="+iid);
+         while (rs.next()) {
+             date1 = rs.getString(1);
+              
+           }
+          
+         try {
+                Date date_1=new SimpleDateFormat("dd-MM-yyyy").parse(date1);
+                Date date_2=new SimpleDateFormat("dd-MM-yyyy").parse(date2);
+                
+                long diff = date_2.getTime() - date_1.getTime();
+                
+                ex.days=(int)(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
+                 
+                 
+            } catch (ParseException e1) {
+                
+                e1.printStackTrace();
+            }
+          
+         
+         
+         stmt.executeUpdate("UPDATE issued_books SET return_date='"+return_date+"' WHERE iid="+iid);
+         g.dispose();
+          
+
+         Connection connection1 = DbConnection.connect();
+         Statement stmt1 = connection1.createStatement();
+         stmt1.executeUpdate("USE Library");                
+        ResultSet rs1 = stmt1.executeQuery("SELECT period FROM issued_books WHERE iid="+iid); 
+        String period=null; 
+        while (rs1.next()) {
+             period = rs1.getString(1);
+              
+           }
+        int diff_int = Integer.parseInt(period);
+        if(ex.days <= diff_int)
+        {
+        	 JOptionPane.showMessageDialog(null,"Book Returned with no fine!");
+        }
+        else {
+        	int fine = (ex.days-diff_int)*10; 
+            
+            stmt1.executeUpdate("UPDATE issued_books SET fine="+fine+" WHERE iid="+iid);  
+            String fine_str = ("Fine: Rs. "+fine);
+            JOptionPane.showMessageDialog(null,fine_str);
+        }
+
+         JOptionPane.showMessageDialog(null,"Book Returned!");
+          
+        }
+                 
+         
+        catch (SQLException e1) {
+            
+             JOptionPane.showMessageDialog(null, e1);
+        }   
+         
+        }
+         
+    }); 
+        g.add(returnDateLabel);
+        g.add(btnReturn );
+        g.add(issueIdLabel);
+        g.add(iidTextField );
+        g.add(returnTextField);
+        g.setSize(350,250);
+        g.setLayout(null);
+        g.setVisible(true);
+        g.setLocationRelativeTo(null);    
+        g.setResizable(false);
+}
+}

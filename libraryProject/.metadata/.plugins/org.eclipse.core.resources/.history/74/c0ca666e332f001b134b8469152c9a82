@@ -1,0 +1,69 @@
+package libraryProject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+public class ReturnBookRequest {
+
+	public static void returnBookRequest(String UID)
+	{
+		JFrame g = new JFrame("Enter Details");
+	    JFrame f = new JFrame("All issued books"); 
+	    //serializationdemo
+	    String returnbooksFile = "allissuedbooksSerialization.txt";
+	    String outputFile = "ReturnBooksSerialization.txt";
+		// following code reads into the file
+
+		ArrayList list;
+
+		BooksParameters defNext = null;
+		DefaultTableModel model = new DefaultTableModel();
+		
+		try {
+			ArrayList<issueBooksParam> namesList = new ArrayList<issueBooksParam>();
+			list = (ArrayList) SerializationLib.doDeserialize(returnbooksFile);
+			// System.out.println("def():\n --"+"\n |\n "+def);
+
+			namesList = (ArrayList<issueBooksParam>) list;
+			System.out.println(System.lineSeparator());
+
+			ArrayList<String> columns = new ArrayList<String>();
+			ArrayList<String[]> values = new ArrayList<String[]>();
+			columns.add("username");
+			columns.add("bid");
+			columns.add("period for");
+			columns.add("request issued date");
+
+			 
+			for (int i = 0; i < namesList.size(); i++) {
+				values.add(new String[] {namesList.get(i).username , namesList.get(i).bid ,  namesList.get(i).period, namesList.get(i).issued_date,
+					});
+			}
+
+			TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+			JTable table = new JTable(tableModel);
+			// TestJFrame testJFrame = new TestJFrame();
+			// table = new JTable(model);
+			JScrollPane scrollPane = new JScrollPane(table);
+
+			f.add(scrollPane);
+			f.setSize(800, 400);
+			f.setVisible(true);
+			f.setLocationRelativeTo(null);
+
+	//
+
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		 
+		
+	}
+}

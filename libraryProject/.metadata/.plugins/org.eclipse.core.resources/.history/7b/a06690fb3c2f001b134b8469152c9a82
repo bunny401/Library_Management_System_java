@@ -1,0 +1,146 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+public class ReturnBookRequest {
+
+	public static void returnBookRequest(String UID)
+	{
+		JFrame g = new JFrame("Enter Details");
+	    JFrame f = new JFrame("All issued books"); 
+	    //serializationdemo
+	    String returnbooksFile = "allissuedbooksSerialization.txt";
+	    String outputFile = "ReturnBooksSerialization.txt";
+		// following code reads into the file
+
+		ArrayList list;
+
+		BooksParameters defNext = null;
+		DefaultTableModel model = new DefaultTableModel();
+		
+		try {
+			ArrayList<issueBooksParam> namesList = new ArrayList<issueBooksParam>();
+			list = (ArrayList) SerializationLib.doDeserialize(returnbooksFile);
+			// System.out.println("def():\n --"+"\n |\n "+def);
+
+			namesList = (ArrayList<issueBooksParam>) list;
+			System.out.println(System.lineSeparator());
+
+			ArrayList<String> columns = new ArrayList<String>();
+			ArrayList<String[]> values = new ArrayList<String[]>();
+			columns.add("username");
+			columns.add("bid");
+			columns.add("period for");
+			columns.add("request issued date");
+
+			 
+			for (int i = 0; i < namesList.size(); i++) {
+				values.add(new String[] {namesList.get(i).username , namesList.get(i).bid ,  namesList.get(i).period, namesList.get(i).issued_date,
+					});
+			}
+
+			TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+			JTable table = new JTable(tableModel);
+			// TestJFrame testJFrame = new TestJFrame();
+			// table = new JTable(model);
+			JScrollPane scrollPane = new JScrollPane(table);
+
+			f.add(scrollPane);
+			f.setSize(800, 400);
+			f.setVisible(true);
+			f.setLocationRelativeTo(null);
+
+	//
+
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		Calendar cal = Calendar.getInstance();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		
+		JLabel bookIDlbl,usernamelbl,returndatelbl;  
+		bookIDlbl=new JLabel("Book ID");  
+		bookIDlbl.setBounds(30,15, 100,30); 
+	     
+	     
+		usernamelbl=new JLabel("User Name");  
+		usernamelbl.setBounds(30,53, 100,30); 
+	     
+		returndatelbl=new JLabel("Return Date");  
+		returndatelbl.setBounds(30,90, 100,30); 
+	     
+	    
+	    JTextField bookid_tf = new JTextField();
+	    bookid_tf.setBounds(110, 15, 200, 30);
+	     
+	    
+	    JTextField userTextField=new JTextField();
+	    userTextField.setBounds(110, 53, 200, 30);
+	    
+	    JTextField returnTextField=new JTextField();
+	    returnTextField.setBounds(110, 90, 200, 30);
+		
+		    returnTextField.setText(dateFormat.format(cal.getTime()));
+		    
+		    JButton btnAddBook=new JButton("Submit");
+		    btnAddBook.setBounds(130,130,90,25);
+		    btnAddBook.setBackground(Color.GREEN);
+		    btnAddBook.setForeground(Color.WHITE);
+		    btnAddBook.addActionListener(new ActionListener() {
+		         
+		        public void actionPerformed(ActionEvent e){
+		        
+		        	 
+		     String    bookid = bookid_tf.getText();
+		     String   username = userTextField.getText();
+		     String   returnDate = returnTextField.getText();
+		     ArrayList<BooksParameters> objlist = new ArrayList<BooksParameters>();
+		     
+		     Scanner sc = new Scanner(new File("sdemo.txt"));
+	         while(sc.hasNext()){
+	             String book_name = sc.next();
+	             String book_genre = sc.next();
+	             String book_price = sc.next();
+	           
+	           
+	            BooksParameters obj = new BooksParameters(book_name, book_genre, book_price);
+	            objlist.add(obj);
+	            
+	         }
+	         
+		     
+		        }
+
+		        });
+		    g.add(returndatelbl);
+		    g.add(usernamelbl);
+		    g.add(bookIDlbl);
+	       // g.add(btnReturn );
+	        g.add(userTextField);
+	        g.add(bookid_tf );
+	        g.add(returnTextField);
+	        g.setSize(350,250);
+	        g.setLayout(null);
+	        g.setVisible(true);
+	        g.setLocationRelativeTo(null);    
+	        g.setResizable(false);
+	}
+}

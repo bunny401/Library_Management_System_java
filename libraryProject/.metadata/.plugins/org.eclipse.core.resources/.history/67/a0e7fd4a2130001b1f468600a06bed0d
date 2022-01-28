@@ -1,0 +1,25 @@
+package libraryProject;
+
+import java.io.Serializable;
+
+public class UsersParam implements Serializable {
+		  /**
+		 * 
+		 *  
+		 */
+		public String username;
+		public String password;
+		public String role;
+		 
+		private static final long serialVersionUID = 1L;
+		
+		public UsersParam(String uname, String pass, String role) {
+			
+			username = uname;
+			password = pass;
+	        role = role;
+	        
+		}
+
+		
+}

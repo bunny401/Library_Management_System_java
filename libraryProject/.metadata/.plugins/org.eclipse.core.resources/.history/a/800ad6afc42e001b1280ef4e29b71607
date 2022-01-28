@@ -1,0 +1,168 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+public class IssueBook {
+public static void issueBook() {
+   
+	JFrame g = new JFrame("Enter Details");
+    JFrame f = new JFrame("My Books"); 
+    //serializationdemo
+    String allborrowdrequestBooksFile = "borrowBooksSerialization.txt";
+    String outputFile = "borrowBooksSerialization.txt";
+	// following code reads into the file
+
+	ArrayList list;
+
+	//BooksParameters defNext = null;
+	DefaultTableModel model = new DefaultTableModel();
+	 
+	try {
+		ArrayList<issueBooksParam> namesList = new ArrayList<issueBooksParam>();
+		list = (ArrayList) SerializationLib.doDeserialize(allborrowdrequestBooksFile);
+		// System.out.println("def():\n --"+"\n |\n "+def);
+
+		namesList = (ArrayList<issueBooksParam>) list;
+		System.out.println(System.lineSeparator());
+
+		ArrayList<String> columns = new ArrayList<String>();
+		ArrayList<String[]> values = new ArrayList<String[]>();
+		columns.add("username");
+		columns.add("bid");
+		columns.add("period");
+		columns.add("issued_date");
+
+		for (int i = 0; i < namesList.size(); i++) {
+			values.add(new String[] {namesList.get(i).username , namesList.get(i).bid ,  namesList.get(i).period, namesList.get(i).issued_date });
+		}
+
+		TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+		JTable table = new JTable(tableModel);
+		// TestJFrame testJFrame = new TestJFrame();
+		// table = new JTable(model);
+		JScrollPane scrollPane = new JScrollPane(table);
+
+		f.add(scrollPane);
+		f.setSize(800, 400);
+		f.setVisible(true);
+		f.setLocationRelativeTo(null);
+
+//
+
+	} catch (ClassNotFoundException | IOException e) {
+		e.printStackTrace();
+	}
+   
+    JLabel bidLabel,uidLabel,periodLabel,issueDateLabel;  
+    bidLabel=new JLabel("Book ID(BID)"); 
+    bidLabel.setBounds(30,15, 100,30); 
+     
+     
+    uidLabel=new JLabel("Username");  
+    uidLabel.setBounds(30,53, 100,30); 
+     
+//    bookNameLabel=new JLabel("Book Name");  
+//    bookNameLabel.setBounds(30,90, 100,30); 
+    
+    periodLabel=new JLabel("Period(days)");  
+    periodLabel.setBounds(30,90, 100,30); 
+     
+    issueDateLabel=new JLabel("Issued Date(DD-MM-YYYY)");  
+    issueDateLabel.setBounds(30,127, 150,30); 
+     
+    JTextField bidTextField = new JTextField();
+    bidTextField.setBounds(130, 15, 200, 30);
+     
+     
+    JTextField userNameTextField=new JTextField();
+    userNameTextField.setBounds(130, 53, 200, 30);
+    
+//    JTextField bookNameTextField=new JTextField();
+//    bookNameTextField.setBounds(130, 90, 200, 30);
+    
+    JTextField periodTextField=new JTextField();
+    periodTextField.setBounds(130, 90, 200, 30);
+     
+    JTextField issueTextField=new JTextField();
+    issueTextField.setBounds(180, 130, 150, 30);   
+
+     
+    JButton btnIssue=new JButton("Submit");  
+    btnIssue.setBounds(130,220,110,25);
+    btnIssue.setBackground(Color.decode("#8E44AD"));
+    btnIssue.setForeground(Color.WHITE);
+    btnIssue.addActionListener(new ActionListener() {
+         
+        public void actionPerformed(ActionEvent e){
+         
+        String username = userNameTextField.getText();
+        String bid = bidTextField.getText();
+        String period = periodTextField.getText();
+        String issued_date = issueTextField.getText();
+        //String bookName=bookNameTextField.getText();
+        int period_int = 0;
+        int bid_int=0;
+        
+        boolean isPeriod=true;
+        boolean isBid=true;
+        try {
+         period_int = Integer.parseInt(period);
+        }catch(NumberFormatException ex){
+        	JOptionPane.showMessageDialog(null,"Please Enter Period in numbers!");
+        	isPeriod=false;
+        }
+   
+   try {
+	    bid_int=Integer.parseInt(bid); 
+   }catch(NumberFormatException ex){
+	   JOptionPane.showMessageDialog(null,"Please Enter bid in number!");
+	   isBid=false;
+   }
+        
+        
+        if(isPeriod==true && isBid==true)
+        {
+        	   // add to file
+        }
+        
+        
+         
+        }
+         
+    });
+         
+     
+        g.add(periodLabel);
+        g.add(issueDateLabel);
+        g.add(btnIssue);
+        g.add(bidLabel);
+        g.add(uidLabel);
+        g.add(userNameTextField);
+        g.add(bidTextField);
+        g.add(periodTextField);
+        g.add(issueTextField);
+        g.setSize(450,300);
+        g.setLayout(null);
+        g.setVisible(true);
+        g.setLocationRelativeTo(null);
+        g.setResizable(false);
+}
+}

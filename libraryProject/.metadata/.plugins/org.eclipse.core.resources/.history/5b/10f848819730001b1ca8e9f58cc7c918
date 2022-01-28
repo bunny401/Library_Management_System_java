@@ -1,0 +1,320 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import libraryProject.BaseClass.ex;
+
+public class ReturnBook {
+public static void returnBook() {
+	JFrame g = new JFrame("All Issued Books Details");
+	JFrame f = new JFrame("All Issued Books Details");
+	 String returnbooksFile = "allissuedbooksSerialization.txt";
+      ArrayList list; boolean found = false;
+
+      try {
+			ArrayList<issueBooksParam> namesList = new ArrayList<issueBooksParam>();
+			ArrayList<issueBooksParam> namesList_output = new ArrayList<issueBooksParam>();
+			list = (ArrayList) SerializationLib.doDeserialize(returnbooksFile);
+			// System.out.println("def():\n --"+"\n |\n "+def);
+
+			namesList = (ArrayList<issueBooksParam>) list;
+			
+			System.out.println(System.lineSeparator());
+
+			ArrayList<String> columns = new ArrayList<String>();
+			ArrayList<String[]> values = new ArrayList<String[]>();
+			columns.add("BookID");
+			columns.add("Username");
+			columns.add("period for");
+			columns.add("issued date");
+			
+			for (int i = 0; i < namesList.size(); i++) {
+				values.add(new String[] {namesList.get(i).bid ,
+						namesList.get(i).username , 
+						namesList.get(i).period, 
+						namesList.get(i).issued_date});
+			}
+
+			TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+			JTable table = new JTable(tableModel);
+			// TestJFrame testJFrame = new TestJFrame();
+			// table = new JTable(model);
+			JScrollPane scrollPane = new JScrollPane(table);
+
+			g.add(scrollPane);
+			g.setSize(800, 500);
+			g.setVisible(true);
+			g.setLocationRelativeTo(null);
+			 
+      } catch (ClassNotFoundException | IOException e) {
+  		e.printStackTrace();
+  	}
+      
+
+
+
+	
+    JLabel issueIdLabel,returnDateLabel,issue_datelbl,periodlbl, unamelbl;  
+    issueIdLabel=new JLabel("Book ID");  
+    issueIdLabel.setBounds(30,15, 100,30); 
+    
+    Calendar cal = Calendar.getInstance();
+   	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
+    issue_datelbl=new JLabel("Issue Date(DD-MM-YYYY)");  
+    issue_datelbl.setBounds(30,110, 150,30); 
+     
+    returnDateLabel=new JLabel("Return Date(DD-MM-YYYY)");  
+    returnDateLabel.setBounds(30,70, 150,30); 
+    
+    
+    periodlbl=new JLabel("Period");  
+    periodlbl.setBounds(30,140, 150,30); 
+     
+    unamelbl=new JLabel("Username/Issuer");  
+    unamelbl.setBounds(30,170, 150,30); 
+    
+    JTextField bookidTextField  = new JTextField();
+    bookidTextField .setBounds(110, 15, 200, 30);
+     
+    JTextField issueTextField=new JTextField();
+    issueTextField.setBounds(180, 110, 130, 30);
+     
+    JTextField returnTextField=new JTextField();
+    returnTextField.setBounds(180, 70, 130, 30);
+    returnTextField.setText(dateFormat.format(cal.getTime()));
+    
+    
+    JTextField periodtextfield=new JTextField();
+    periodtextfield.setBounds(180, 140, 130, 30);
+     
+    JTextField unameTextField=new JTextField();
+    unameTextField.setBounds(180, 180, 130, 30);
+  
+   	
+    JButton btnReturn =new JButton("Return");
+    btnReturn.setBounds(130,220,130,25);
+    btnReturn.setBackground(Color.decode("#D4AC0D"));
+    btnReturn.setForeground(Color.WHITE);
+    btnReturn.addActionListener(new ActionListener() {
+         
+        public void actionPerformed(ActionEvent e){                 
+        
+        String book_id = bookidTextField .getText();
+        String return_date = returnTextField.getText();
+        String issue_date = issueTextField.getText();
+        String Period = periodtextfield.getText();
+        String username = unameTextField .getText();
+        int Period_int = Integer.parseInt(Period);
+        
+        //Calculate Fine
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       boolean is_fine = false;
+       long Total_fine = 0;
+       
+
+        
+            LocalDate date1 = LocalDate.parse(issue_date, dtf);
+            //int dayFromdate = date1.getDayOfMonth();
+            
+            LocalDate date2 = LocalDate.parse(return_date, dtf);
+            //int dayFromdate2 = date2.getDayOfMonth();
+            
+            long daysBetween = ChronoUnit.DAYS.between(date1, date2);
+            System.out.println ("Days: " + daysBetween);
+         
+            if(daysBetween > Period_int)
+            {
+            	// FINE 
+            	int perday_fine = 10;
+            	long fine_days = daysBetween -Period_int;
+            	fine_days = fine_days*perday_fine;
+            	 Total_fine = fine_days;
+            	// 
+            	
+            	
+            }
+        
+            // SERIALIZE AND SAVE To FILE
+            ArrayList<ReturnBookParam> objlist = new ArrayList<ReturnBookParam>();
+            try {
+                File myObj = new File("Returnedbooks.txt");
+                Scanner myReader = new Scanner(myObj);
+                
+       				/*
+       				 * while (myReader.hasNextLine()) { String data = myReader.nextLine(); //
+       				 * System.out.println(data); }
+       				 */
+                
+                Scanner sc = new Scanner(new File("Returnedbooks.txt"));
+                while(sc.hasNext()){
+               	 String username1 = sc.next();
+               	 String book_id1=sc.next();
+                    String period1 = sc.next();
+                    String issue_date1 = sc.next();
+                    String return_date1 = sc.next();
+                    String fine1=sc.next();
+                                    
+                   ReturnBookParam obj = new ReturnBookParam(username1, book_id1, period1, issue_date1, return_date1, fine1);
+                   objlist.add(obj);
+                   
+                }
+                
+                
+                myReader.close();
+              } catch (FileNotFoundException ej) {
+                System.out.println("An error occurred.");
+                ej.printStackTrace();
+              }
+            
+            
+            ReturnBookParam obj2 = new ReturnBookParam(username, book_id, Period, issue_date, return_date, Total_fine+"");
+            objlist.add(obj2);
+           // objlist.add(obj2);
+           
+            
+            
+   			
+   			  FileWriter writer; 
+   			  try { writer = new FileWriter("Returnedbooks.txt", true);
+   			  writer.write(username);
+   			  writer.write((book_id) +" ");
+   			  writer.write((Period) +" ");
+   			  writer.write((issue_date)+" ");
+   			  writer.write((return_date)+" "); // write new
+   			  writer.write(Total_fine+"");
+   			  writer.close(); }
+   			  catch (IOException e1) { // TODO
+   			    e1.printStackTrace(); }
+   			  
+   			  
+   			String outputFile="ReturnedbooksSerialization.txt";
+   	      // Serialize the object into a file.
+   	         try {
+   	             SerializationLib.doSerialize(objlist, outputFile);
+   	             //JOptionPane.showMessageDialog(g, "Data Added Sucessfully !");
+   	         } catch (IOException ev) {
+   	             ev.printStackTrace();
+   	             return;
+   	         } 
+   	         
+            
+            if(Total_fine > 0)
+            {
+            	JOptionPane.showMessageDialog(null,"Book Returned with Fine : " + Total_fine);
+            	return;
+            }
+            else
+            {
+            	 JOptionPane.showMessageDialog(null,"Book Returned with No Fine!");
+            }
+            ArrayList<issueBooksParam> objlist_ = new ArrayList<issueBooksParam>();
+            // delete record from file
+            try {
+            	 
+            	 
+                File myObj = new File("allissuedbooks.txt");
+                Scanner myReader = new Scanner(myObj);
+                           
+                Scanner sc = new Scanner(new File("allissuedbooks.txt"));
+                while(sc.hasNext()){
+                    String _username = sc.next();
+                    String _bid = sc.next();
+                    String _period = sc.next();
+                    String _issued_date = sc.next();
+                  
+                    if(_username.equals(username))
+                    { 
+                    	//remove it or skip it
+                    	
+                    }
+                    else
+                    {
+                    	//add it
+                    }
+                    	issueBooksParam obj = new issueBooksParam(_username, _bid, _period ,_issued_date);
+                        objlist_.add(obj);
+                    }
+                myReader.close();
+            } 
+              
+            catch (FileNotFoundException ej) {
+                System.out.println("An error occurred.");
+                ej.printStackTrace();
+              }
+            FileWriter writer_; 
+			  try {
+				  writer_ = new FileWriter("allissuedbooks.txt", true);
+				  for(int i=0; i <objlist_.size();i++)
+				  {
+				  
+			  writer_.write((objlist_.get(i).username) +" ");
+			  writer_.write((objlist_.get(i).bid) +" ");
+			  writer_.write((objlist_.get(i).issued_date)+" "); // write new
+			  writer_.close(); }
+			  }
+			  catch (IOException e1) { // TODO
+			    e1.printStackTrace(); }
+			 
+        
+          
+        }
+                 
+         
+    }); 
+    f.add(unameTextField);
+    f.add(unamelbl);
+    f.add(issueIdLabel);
+    f.add(periodtextfield);
+    f.add(periodlbl);
+    f.add(issue_datelbl);
+    f.add(issueTextField);
+    f.add(returnDateLabel);
+        f.add(returnDateLabel);
+        f.add(btnReturn );
+       
+        f.add(bookidTextField );
+        f.add(returnTextField);
+        f.setSize(400,400);
+        f.setLayout(null);
+       f.setVisible(true);
+       f.setLocationRelativeTo(null);    
+        f.setResizable(false);
+}
+}

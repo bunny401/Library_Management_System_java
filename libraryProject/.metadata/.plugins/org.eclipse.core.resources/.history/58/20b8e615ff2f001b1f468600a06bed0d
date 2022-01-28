@@ -1,0 +1,12 @@
+package libraryProject;
+
+import javax.swing.JFrame;
+
+public class UserIssuedBooks {
+
+	public static void userIssuedBooks() {
+		JFrame f = new JFrame("Books Available");
+
+		String outputFile = "serializationdemo.txt";
+	}
+}

@@ -1,0 +1,64 @@
+package libraryProject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+public class SearchBook {
+	public static void searchBook() {
+
+	JFrame f = new JFrame("Books Available");
+
+	/*
+	 * String outputFile = "serializationdemo.txt"; // following code reads into the
+	 * file
+	 * 
+	 * ArrayList list=null;
+	 * 
+	 * try { ArrayList<BooksParameters> namesList = new
+	 * ArrayList<BooksParameters>(); list = (ArrayList)
+	 * SerializationLib.doDeserialize(outputFile); //
+	 * System.out.println("def():\n --"+"\n |\n "+def);
+	 * 
+	 * namesList = (ArrayList<BooksParameters>) list;
+	 * System.out.println(System.lineSeparator());
+	 * 
+	 * ArrayList<String> columns = new ArrayList<String>(); ArrayList<String[]>
+	 * values = new ArrayList<String[]>(); columns.add("Book ID");
+	 * columns.add("BookName"); columns.add("Genre"); columns.add("Price");
+	 * 
+	 * for (int i = 0; i < namesList.size(); i++) { values.add(new String[]
+	 * {namesList.get(i).book_id, namesList.get(i).bname , namesList.get(i).genre,
+	 * namesList.get(i).price }); }
+	 * 
+	 * TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][]
+	 * {}), columns.toArray()); JTable table = new JTable(tableModel); // TestJFrame
+	 * testJFrame = new TestJFrame(); // table = new JTable(model); JScrollPane
+	 * scrollPane = new JScrollPane(table);
+	 * 
+	 * f.add(scrollPane); f.setSize(800, 400); f.setVisible(true);
+	 * f.setLocationRelativeTo(null);
+	 * 
+	 * //
+	 * 
+	 * } catch (ClassNotFoundException | IOException e) { e.printStackTrace(); }
+	 */
+	
+	JLabel nameLabel=new JLabel("Search by Book name");  
+     nameLabel.setBounds(30,15, 100,30); 
+
+    
+     JTextField nameTextField = new JTextField();
+     nameTextField.setBounds(110, 15, 200, 30);
+      
+    
+}
+}

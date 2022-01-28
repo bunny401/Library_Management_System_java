@@ -1,0 +1,93 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
+import libraryProject.BaseClass.ex;
+
+public class ReturnBook {
+public static void returnBook() {
+	JFrame g = new JFrame("Enter Details");
+    
+    
+    JLabel issueIdLabel,returnDateLabel;  
+    issueIdLabel=new JLabel("Book ID");  
+    issueIdLabel.setBounds(30,15, 100,30); 
+    
+     
+    returnDateLabel=new JLabel("Return Date(DD-MM-YYYY)");  
+    returnDateLabel.setBounds(30,70, 150,30); 
+     
+    JTextField iidTextField  = new JTextField();
+    iidTextField .setBounds(110, 15, 200, 30);
+     
+     
+    JTextField returnTextField=new JTextField();
+    returnTextField.setBounds(180, 70, 130, 30);
+   
+
+    JButton btnReturn =new JButton("Return");
+    btnReturn.setBounds(130,140,130,25);
+    btnReturn.setBackground(Color.decode("#D4AC0D"));
+    btnReturn.setForeground(Color.WHITE);
+    btnReturn.addActionListener(new ActionListener() {
+         
+        public void actionPerformed(ActionEvent e){                 
+         
+        String iid = iidTextField .getText();
+        String return_date = returnTextField.getText();
+         
+        Connection connection = DbConnection.connect();
+         
+       
+          
+         try {
+                
+                 
+                 
+            } catch (IOException ev) {
+                
+                e1.printStackTrace();
+            }
+          
+         
+                     
+      
+        
+
+         JOptionPane.showMessageDialog(null,"Book Returned!");
+          
+        }
+                 
+         
+         
+         
+    }); 
+        g.add(returnDateLabel);
+        g.add(btnReturn );
+        g.add(issueIdLabel);
+        g.add(iidTextField );
+        g.add(returnTextField);
+        g.setSize(350,250);
+        g.setLayout(null);
+        g.setVisible(true);
+        g.setLocationRelativeTo(null);    
+        g.setResizable(false);
+}
+}

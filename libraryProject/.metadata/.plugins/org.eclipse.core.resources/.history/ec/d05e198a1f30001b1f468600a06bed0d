@@ -1,0 +1,125 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+
+import libraryProject.BaseClass.ex;
+
+public class ReturnBook {
+public static void returnBook() {
+	JFrame g = new JFrame("All Issued Books Details");
+    
+	 String returnbooksFile = "allissuedbooksSerialization.txt";
+      ArrayList list; boolean found = false;
+
+      try {
+			ArrayList<issueBooksParam> namesList = new ArrayList<issueBooksParam>();
+			ArrayList<issueBooksParam> namesList_output = new ArrayList<issueBooksParam>();
+			list = (ArrayList) SerializationLib.doDeserialize(returnbooksFile);
+			// System.out.println("def():\n --"+"\n |\n "+def);
+
+			namesList = (ArrayList<issueBooksParam>) list;
+			
+			System.out.println(System.lineSeparator());
+
+			ArrayList<String> columns = new ArrayList<String>();
+			ArrayList<String[]> values = new ArrayList<String[]>();
+			columns.add("BookID");
+			columns.add("Username");
+			columns.add("period for");
+			columns.add("issued date");
+			
+			for (int i = 0; i < namesList.size(); i++) {
+				values.add(new String[] {namesList.get(i).bid ,
+						namesList.get(i).username , 
+						namesList.get(i).period, 
+						namesList.get(i).issued_date});
+			}
+
+			TableModel tableModel = new DefaultTableModel(values.toArray(new Object[][] {}), columns.toArray());
+			JTable table = new JTable(tableModel);
+			// TestJFrame testJFrame = new TestJFrame();
+			// table = new JTable(model);
+			JScrollPane scrollPane = new JScrollPane(table);
+
+			g.add(scrollPane);
+			g.setSize(800, 400);
+			g.setVisible(true);
+			g.setLocationRelativeTo(null);
+			 
+      } catch (ClassNotFoundException | IOException e) {
+  		e.printStackTrace();
+  	}
+      
+
+
+
+	
+    JLabel issueIdLabel,returnDateLabel;  
+    issueIdLabel=new JLabel("Book ID");  
+    issueIdLabel.setBounds(30,15, 100,30); 
+    
+     
+    returnDateLabel=new JLabel("Return Date(DD-MM-YYYY)");  
+    returnDateLabel.setBounds(30,70, 150,30); 
+     
+    JTextField iidTextField  = new JTextField();
+    iidTextField .setBounds(110, 15, 200, 30);
+     
+     
+    JTextField returnTextField=new JTextField();
+    returnTextField.setBounds(180, 70, 130, 30);
+   
+
+    JButton btnReturn =new JButton("Return");
+    btnReturn.setBounds(130,140,130,25);
+    btnReturn.setBackground(Color.decode("#D4AC0D"));
+    btnReturn.setForeground(Color.WHITE);
+    btnReturn.addActionListener(new ActionListener() {
+         
+        public void actionPerformed(ActionEvent e){                 
+         
+        String iid = iidTextField .getText();
+        String return_date = returnTextField.getText();
+        
+         JOptionPane.showMessageDialog(null,"Book Returned!");
+          
+        }
+                 
+         
+         
+         
+    }); 
+        g.add(returnDateLabel);
+        g.add(btnReturn );
+        g.add(issueIdLabel);
+        g.add(iidTextField );
+        g.add(returnTextField);
+        g.setSize(800,400);
+        g.setLayout(null);
+        g.setVisible(true);
+        g.setLocationRelativeTo(null);    
+        g.setResizable(false);
+}
+}

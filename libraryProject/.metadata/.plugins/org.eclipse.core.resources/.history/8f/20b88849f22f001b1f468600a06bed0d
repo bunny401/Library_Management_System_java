@@ -1,0 +1,127 @@
+package libraryProject;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class AdminPanel extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static void admin_menu() {
+	    
+	    
+	    JFrame f=new JFrame("Admin Functions"); 
+	    
+	     
+	    JButton btnViewBooks=new JButton("View Books");
+	    btnViewBooks.setBackground(Color.decode("#ABEBC6"));
+	    btnViewBooks.setForeground(Color.BLACK);
+	    btnViewBooks.setBounds(90,50,170,75);
+	    
+	    btnViewBooks.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	            ViewBooks.ViewBook();
+	    }
+	    }
+	    );
+	     
+	    JButton btnViewUsers=new JButton("View Users");
+	    btnViewUsers.setBounds(90,270,170,75);
+	    btnViewUsers.setBackground(Color.decode("#ABEBC6"));
+	    btnViewUsers.setForeground(Color.BLACK);
+	    btnViewUsers.addActionListener(new ActionListener() { 
+	        public void actionPerformed(ActionEvent e){  
+	               ViewUsers.ViewUser();                
+	        	}
+	        }
+	    );  
+	     
+	    JButton btnViewIssBooks=new JButton("View Issued Books");
+	    btnViewIssBooks.setBounds(90,375,170,75);
+	    btnViewIssBooks.setBackground(Color.decode("#ABEBC6"));
+	    btnViewIssBooks.setForeground(Color.BLACK);
+	    btnViewIssBooks.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	                 
+	            ViewIssuedBooks.issuedBooks();
+	                             
+	    }
+	        }
+	    );
+	    JButton btnLogout=new JButton("Logout");
+	    btnLogout.setBounds(290,375,170,75);
+	    btnLogout.setBackground(Color.red);
+	    btnLogout.setForeground(Color.BLACK);
+	    btnLogout.addActionListener(new ActionListener() {
+	    	  public void actionPerformed(ActionEvent e){
+	    		  f.dispose();
+	    		  Login.login();
+	    	  }
+	    });
+	    JButton btnAddUser=new JButton("Add User"); 
+	    btnAddUser.setBounds(90,155,170,75); 
+	    btnAddUser.setBackground(Color.decode("#ABEBC6"));
+	    btnAddUser.setForeground(Color.BLACK);
+	    btnAddUser.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	                AddUser.addUser(); 
+	               
+	    }
+	    });
+	         
+	     
+	    JButton btnAddBooks=new JButton("Add Book"); 
+	    btnAddBooks.setBounds(290,50,170,75); 
+	    btnAddBooks.setBackground(Color.decode("#ABEBC6"));
+	    btnAddBooks.setForeground(Color.BLACK);
+	    btnAddBooks.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	               AddBook.addBook(); 
+	    }
+	    });
+	     
+	     
+	    JButton btnIssueBooks=new JButton("Issue Book"); 
+	    btnIssueBooks.setBounds(290,155,170,75); 
+	    btnIssueBooks.setBackground(Color.decode("#ABEBC6"));
+	    btnIssueBooks.setForeground(Color.BLACK);
+	    btnIssueBooks.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	     IssueBook.issueBook();
+	                 
+	    }
+	    });
+	     
+	     
+	    JButton btnReturnBook=new JButton("Approve Return Books"); 
+	    btnReturnBook.setBounds(290,270,170,75); 
+	    btnReturnBook.setBackground(Color.decode("#ABEBC6"));
+	    btnReturnBook.setForeground(Color.BLACK); 
+	    btnReturnBook.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e){
+	                 
+	                ReturnBook.returnBook();
+	    }
+	    });
+	     
+	    f.add(btnReturnBook);
+	    f.add(btnIssueBooks);
+	    f.add(btnAddBooks);
+	    f.add(btnViewIssBooks);
+	    f.add(btnViewUsers);
+	    f.add(btnViewBooks);
+	    f.add(btnAddUser);
+	    f.add(btnLogout);
+	    f.getContentPane().setBackground( Color.decode("#196F3D") );
+	    f.setSize(600,600);
+	    f.setLayout(null);
+	    f.setVisible(true);
+	    f.setLocationRelativeTo(null);
+	    f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	    f.setResizable(false); 
+	    }
+}

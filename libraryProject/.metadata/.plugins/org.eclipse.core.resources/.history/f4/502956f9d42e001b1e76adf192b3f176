@@ -1,0 +1,24 @@
+package libraryProject;
+
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+
+public class ReturnBookRequest {
+
+	public static void returnBookRequest(String UID)
+	{
+		JFrame g = new JFrame("Enter Details");
+	    JFrame f = new JFrame("My Books"); 
+	    //serializationdemo
+	    String returnbooksFile = "allissuedbooksSerialization.txt";
+	    String outputFile = "ReturnBooksSerialization.txt";
+		// following code reads into the file
+
+		ArrayList list;
+
+		BooksParameters defNext = null;
+		DefaultTableModel model = new DefaultTableModel();
+	}
+}

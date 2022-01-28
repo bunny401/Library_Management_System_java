@@ -1,0 +1,127 @@
+package libraryProject;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+
+public class Login extends JFrame {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static void login() {
+		
+	     
+	    JFrame f=new JFrame("Login");
+	    
+	    
+	    JLabel usernameLabel,passwordLabel;  
+	    
+	    usernameLabel=new JLabel("Username");  
+	    usernameLabel.setBounds(90,75, 100,30); 
+	    usernameLabel.setForeground(Color.WHITE);
+	    passwordLabel=new JLabel("Password");  
+	    passwordLabel.setBounds(90,130, 100,30);    
+	    passwordLabel.setForeground(Color.WHITE);
+	     
+	    JTextField usernameTextField = new JTextField(); 
+	    usernameTextField.setBounds(170, 75, 200, 30);
+	         
+	    JPasswordField pwdPasswordField=new JPasswordField(); 
+	    pwdPasswordField.setBounds(170, 130, 200, 30);
+	       
+	    JButton btnLogin=new JButton("Login");
+	    btnLogin.setBounds(190,180,150,25);
+	    btnLogin.setBackground(Color.decode("#2980B9"));
+	    btnLogin.setForeground(Color.WHITE);
+	    btnLogin.addActionListener(new ActionListener() {  
+	         
+	        public void actionPerformed(ActionEvent e){ 
+	 
+	        String username = usernameTextField.getText(); 
+	        @SuppressWarnings("deprecation")
+			String password = pwdPasswordField.getText(); 
+	         
+	        if(username.equals("")) 
+	        {
+	            JOptionPane.showMessageDialog(null,"Please enter username"); 
+	        } 
+	        else if(password.equals("")) 
+	        {
+	            JOptionPane.showMessageDialog(null,"Please enter password"); 
+	        }
+	        else { 
+	            
+	           // Connection connection=DbConnection.connect();  
+	            try
+	            {
+	            	boolean is_admin= false;
+	            	String admin="";
+	           // Statement stmt = connection.createStatement();
+	            //  stmt.executeUpdate("USE Library"); 
+	             // String st = ("SELECT * FROM users WHERE USERNAME='"+username+"' AND PASSWORD='"+password+"'"); 
+	             // ResultSet rs = stmt.executeQuery(st); 
+	              if(is_admin==false) { 
+	                  System.out.print("No user");  
+	                  
+	                  JOptionPane.showMessageDialog(null,"Wrong Username/Password!"); 
+	 
+	              }
+	              else {
+	            	 // String admin=rs.getString("admin");
+	            	//  String UID = rs.getString("UID");
+	            	  if(admin.equals("1"))
+	            	  {
+	            		  f.dispose();
+	            	  AdminPanel.admin_menu();
+	            	  }
+	            	  else
+	            	  {
+	            		  f.dispose();
+	            		 //UserPanel.user_menu(UID);
+	            	  }
+	            	  
+	                
+	              }
+	            	  
+
+	            }
+	            catch (Exception ex) {
+	                 ex.printStackTrace();
+	        }
+	        }
+	    }               
+	    });
+	   
+		
+	    JLabel img=new JLabel(new ImageIcon("src/splashImg.jpg"));
+		f.add(img);
+	    f.add(pwdPasswordField); 
+	    f.add(btnLogin);
+	    f.add(usernameTextField);  
+	    f.add(usernameLabel);  
+	    f.add(passwordLabel); 
+	    f.setResizable(false);
+ 	    f.getContentPane().setBackground( Color.decode("#2E4053") );
+	    f.setSize(500,380);
+	    f.setLayout(null);
+	    f.setVisible(true);
+	    f.setLocationRelativeTo(null);
+	    f.setDefaultCloseOperation(EXIT_ON_CLOSE);
+       
+	}
+}
